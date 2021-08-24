@@ -22,7 +22,11 @@ describe('app routes', () => {
         });
       
       token = signInData.body.token; // eslint-disable-line
-    }, 15000);
+    }, 20000);
+    
+    afterAll(done => {
+      return client.end(done);
+    });
 
     test('adds an item to todos', async() => {
       const todo = {
@@ -35,17 +39,36 @@ describe('app routes', () => {
         .post('/api/todos')
         .send(todo)
         .set('Authorization', token)
-        .expect(200)
-        .expect('Content-Type', /json/);
+        .expect('Content-Type', /application\/json/)
+        .expect(200);
 
-      expect(data.body.todo).toEqual('water plants');
-      expect(data.body.completed).toEqual(false);
-      expect(data.body.user_id).toEqual(1);
+      expect(data.body[0]).toEqual(
+        {
+          id: 1,
+          todo: 'water plants',
+          completed: false,
+          user_id: 1
+        }
+      );
+    });
+
+    test('gets a users todos', async() => {
+      const expectation = [{
+        id: 1,
+        todo: 'feed the fish',
+        completed: false,
+        user_id: 1
+      }];
+
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+      
+      expect(data.body).toEqual(expectation);
     });
   
-    afterAll(done => {
-      return client.end(done);
-    });
 
     // test('returns animals', async() => {
 
