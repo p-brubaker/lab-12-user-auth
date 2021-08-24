@@ -30,7 +30,7 @@ describe('app routes', () => {
 
     test('adds an item to todos', async() => {
       const todo = {
-        todo: 'water plants',
+        todo: 'water the plants',
         completed: false,
         user_id: 1
       };
@@ -45,7 +45,7 @@ describe('app routes', () => {
       expect(data.body[0]).toEqual(
         {
           id: 1,
-          todo: 'water plants',
+          todo: 'water the plants',
           completed: false,
           user_id: 1
         }
@@ -55,7 +55,7 @@ describe('app routes', () => {
     test('gets a users todos', async() => {
       const expectation = [{
         id: 1,
-        todo: 'feed the fish',
+        todo: 'water the plants',
         completed: false,
         user_id: 1
       }];
@@ -69,36 +69,24 @@ describe('app routes', () => {
       expect(data.body).toEqual(expectation);
     });
   
+    test('updates an id', async() => {
+      const expectation = [{
+        id: 1,
+        todo: 'water the plants',
+        completed: true,
+        user_id: 1
+      }];
 
-    // test('returns animals', async() => {
+      const data = await fakeRequest(app)
+        .put('/api/todos/1')
+        .send(expectation)
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
 
-    //   const expectation = [
-    //     {
-    //       'id': 1,
-    //       'name': 'bessie',
-    //       'cool_factor': 3,
-    //       'owner_id': 1
-    //     },
-    //     {
-    //       'id': 2,
-    //       'name': 'jumpy',
-    //       'cool_factor': 4,
-    //       'owner_id': 1
-    //     },
-    //     {
-    //       'id': 3,
-    //       'name': 'spot',
-    //       'cool_factor': 10,
-    //       'owner_id': 1
-    //     }
-    //   ];
+      expect(data.body).toEqual(expectation);
+    });
 
-    //   const data = await fakeRequest(app)
-    //     .get('/animals')
-    //     .expect('Content-Type', /json/)
-    //     .expect(200);
 
-    //   expect(data.body).toEqual(expectation);
-    // });
   });
 });
