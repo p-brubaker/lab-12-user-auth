@@ -73,7 +73,7 @@ describe('app routes', () => {
       const expectation = {
         id: 1,
         todo: 'water the plants',
-        completed: true,
+        completed: false,
         user_id: 1
       };
 
@@ -86,7 +86,5 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
-
-
   });
 });
