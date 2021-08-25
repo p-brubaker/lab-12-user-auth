@@ -70,12 +70,12 @@ describe('app routes', () => {
     });
   
     test('updates an id', async() => {
-      const expectation = [{
+      const expectation = {
         id: 1,
         todo: 'water the plants',
         completed: true,
         user_id: 1
-      }];
+      };
 
       const data = await fakeRequest(app)
         .put('/api/todos/1')
